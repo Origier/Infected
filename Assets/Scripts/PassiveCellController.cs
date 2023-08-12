@@ -11,7 +11,9 @@ public class PassiveCellController : MonoBehaviour
 
     private float time_since_last_move = 0.0f;
     private Rigidbody2D cell_rb;
+    private Rigidbody2D player_rb;
     private bool ready_to_move = false;
+    private bool player_attached = false;
 
     // Used to establish that the cell has stopped moving
     private Vector2 still_vector = new Vector2(0, 0);
@@ -38,6 +40,10 @@ public class PassiveCellController : MonoBehaviour
 
             // Apply the force and set the ready to move flag
             cell_rb.AddForce(force_vec * random_force);
+            if (player_attached)
+            {
+                player_rb.AddForce(force_vec * random_force);
+            }
             ready_to_move = false;
             time_since_last_move = 0.0f;
         }
@@ -94,6 +100,22 @@ public class PassiveCellController : MonoBehaviour
 
             Vector2 new_velocity = velocity_proj_vertical + velocity_proj_horizontal;
             cell_rb.velocity = new_velocity;
+            if (player_attached)
+            {
+                player_rb.velocity = new_velocity;
+            }
         }
+    }
+
+    public void PlayerAttached(GameObject player)
+    {
+        player_rb = player.GetComponent<Rigidbody2D>();
+        player_attached = true;
+    }
+
+    public void PlayerDettached()
+    {
+        player_rb = null;
+        player_attached = false;
     }
 }
