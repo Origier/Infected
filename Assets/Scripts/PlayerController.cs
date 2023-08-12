@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     public float max_player_speed_jump = 10.0f;
     public float max_player_health = 3.0f;
     public float cell_attachment_error_range = 0.05f;
+    public Collider2D starting_attachment;
 
     private Vector2 attachment_vector;
     private Vector3 space_force_vector;
@@ -20,14 +21,13 @@ public class PlayerController : MonoBehaviour
     private float current_speed_jump = 0.0f;
     private float current_health = 0.0f;
     private int mucus = 0;
-    private Vector2 cells_location;
-    private bool attached_to_cell = false;
 
     void Start()
     {
         current_health = max_player_health;
         current_speed = max_player_speed;
         current_speed_jump = max_player_speed_jump;
+        current_attached_wall = starting_attachment;
     }
 
     // Update is called once per frame
@@ -37,7 +37,10 @@ public class PlayerController : MonoBehaviour
         // The blob will continue to travel until it collides with a wall where it then sticks
         if (space_pressed)
         {
-            attached_to_cell = false;
+            if (current_attached_wall.tag == "Cell")
+            {
+                current_attached_wall.gameObject.SendMessage("PlayerDettached");
+            }
 
             // Apply the space force to the player based on jump speed
             transform.position = transform.position + (space_force_vector * Time.deltaTime * current_speed_jump);
@@ -52,15 +55,8 @@ public class PlayerController : MonoBehaviour
             space_pressed = Input.GetKey(KeyCode.Space);
 
             transform.position = transform.position + (movement_force_vector * horizontal_input * Time.deltaTime * current_speed);
-            if (attached_to_cell)
-            {
-                UpdatePositionRelativeToCell();
-                UpdateForceVectorsRelativeToCell();
-            }
-            else
-            {
-                UpdateForceVectors();
-            }
+      
+            UpdateForceVectors();
         }
     }
 
@@ -80,71 +76,31 @@ public class PlayerController : MonoBehaviour
         movement_force_vector = new Vector3(perp_attachment_vector.x, perp_attachment_vector.y, 0).normalized;
     }
 
-    private void UpdatePositionRelativeToCell()
-    {
-        // Getting the updated attachment vector and cell location
-        cells_location = current_attached_wall.transform.position;
-        Vector2 current_attachment_vector = new Vector2(cells_location.x - transform.position.x, cells_location.y - transform.position.y);
-
-        // Getting a range for capturing the magnitude
-        float upper_bound = attachment_vector.magnitude + cell_attachment_error_range;
-        float lower_bound = attachment_vector.magnitude - cell_attachment_error_range;
-
-        // If the player is not the same distance to the cell as they were previously then move the player according to the change
-        if (!(current_attachment_vector.magnitude >= lower_bound && current_attachment_vector.magnitude <= upper_bound))
-        {
-            // Place the player at the expected position based on the attachement vector
-            transform.position = cells_location + attachment_vector;
-            print("Adjusting position");
-        }
-    }
-
-    private void UpdateForceVectorsRelativeToCell()
-    {
-        // Determine the closest point from the connected wall and then determine the difference vector to express this attachment
-        Vector2 closest_point = current_attached_wall.transform.position;
-        attachment_vector = new Vector2(closest_point.x - transform.position.x, closest_point.y - transform.position.y);
-
-        // Calculating the direction of the space force by the direction of the attachment vector
-        // Normalize so that the space_force is always a factor of 1
-        space_force_vector = new Vector3(attachment_vector.x * -1, attachment_vector.y * -1, 0).normalized;
-
-        // Calculating the movement force to apply based on the attachment vector, ensuring that the blob always
-        // moves perpendicular to the surface of the object it is attached to
-        Vector2 perp_attachment_vector = Vector2.Perpendicular(attachment_vector);
-        movement_force_vector = new Vector3(perp_attachment_vector.x, perp_attachment_vector.y, 0).normalized;
-    }
-
     // When a wall is hit, end the vertical momentum
     private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject other = collision.gameObject;
 
-        if (other.tag == "Wall")
+        if (other.tag == "Wall" || other.tag == "Cell")
         {
+            if (current_attached_wall.tag == "Cell")
+            {
+                current_attached_wall.gameObject.SendMessage("PlayerDettached");
+            }
+
             // Setting up the known wall that we are attached to
             current_attached_wall = collision;
 
             UpdateForceVectors();
 
             space_pressed = false;
-            attached_to_cell = false;
         }
 
         // When the other object is a cell then maintain the closest point must be the largest distance from the cell
         // Accomadate the cell movement by checking that the connecting distance is maintained
         if (other.tag == "Cell")
         {
-            cells_location = other.transform.position;
-            attachment_vector = new Vector2(cells_location.x - transform.position.x, cells_location.y - transform.position.y);
-            attached_to_cell = true;
-
-            // Setting up the known wall that we are attached to
-            current_attached_wall = collision;
-
-            UpdateForceVectors();
-
-            space_pressed = false;
+            other.SendMessage("PlayerAttached", gameObject);
         }
     }
 
