@@ -60,7 +60,7 @@ public class HeartContainerUI : MonoBehaviour
             // For each whole heart, change the alpha for the heart object to 255
             Image heart = full_heart_spots[i].GetComponent<Image>();
             var temp_color = heart.color;
-            temp_color.a = 255f;
+            temp_color.a = 1.0f;
             heart.color = temp_color;
         }
 
@@ -69,7 +69,7 @@ public class HeartContainerUI : MonoBehaviour
         {
             Image heart = half_heart_spots[whole_hearts].GetComponent<Image>();
             var temp_color = heart.color;
-            temp_color.a = 255f;
+            temp_color.a = 1.0f;
             heart.color = temp_color;
         }
     }

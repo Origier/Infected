@@ -277,11 +277,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4477260591248388463, guid: e5a20d0eabbf62742ba1605e76837ba5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.6
+      value: 80.23
       objectReference: {fileID: 0}
     - target: {fileID: 4477260591248388463, guid: e5a20d0eabbf62742ba1605e76837ba5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.6
+      value: -14.69
       objectReference: {fileID: 0}
     - target: {fileID: 4477260591248388463, guid: e5a20d0eabbf62742ba1605e76837ba5, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1257,6 +1257,7 @@ GameObject:
   - component: {fileID: 698437290}
   - component: {fileID: 698437289}
   - component: {fileID: 698437288}
+  - component: {fileID: 698437292}
   m_Layer: 5
   m_Name: Player UI
   m_TagString: Untagged
@@ -1349,6 +1350,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &698437292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 698437287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3103a7235d168146813f5cce570741a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  infect_ui_image: {fileID: 41374049}
+  consume_ui_image: {fileID: 1465916782}
+  target_ui_image: {fileID: 1136849286}
+  inactive_alpha: 0.25
+  active_alpha: 1
+  player: {fileID: 1511919632}
 --- !u!1001 &729956569
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2194,7 +2213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.2509804}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

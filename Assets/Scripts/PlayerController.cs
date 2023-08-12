@@ -152,4 +152,9 @@ public class PlayerController : MonoBehaviour
     {
         return current_health;
     }
+
+    public bool GetAttachedToCell()
+    {
+        return attached_to_cell;
+    }
 }
