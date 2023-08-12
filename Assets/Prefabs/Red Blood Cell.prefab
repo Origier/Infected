@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 2
   m_SortingOrder: 1
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.9622642, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.9607843, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -138,3 +138,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   random_force: 500
   wait_time: 2.5
+  max_health: 3
+  destruction_countdown: 0.01
+  fully_infected_color: {r: 0.019593634, g: 0.084905684, b: 0, a: 0}

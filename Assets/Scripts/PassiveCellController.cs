@@ -8,8 +8,9 @@ public class PassiveCellController : MonoBehaviour
     public float random_force = 500.0f;
     // The time the cell waits when coming to a stop before moving again
     public float wait_time = 1.0f;
-    public float health = 3.0f;
+    public float max_health = 3.0f;
     public float destruction_countdown = 0.5f;
+    public Color fully_infected_color;
 
     private float time_since_last_move = 0.0f;
     private Rigidbody2D cell_rb;
@@ -20,6 +21,14 @@ public class PassiveCellController : MonoBehaviour
     private bool start_destroy_countdown = false;
     private bool infected = false;
     private float infect_damage = 0.0f;
+    private float current_health;
+    private float time_till_death = 0.0f;
+
+    // color change variables
+    private float red_change_per_sec = 0.0f;
+    private float green_change_per_sec = 0.0f;
+    private float blue_change_per_sec = 0.0f;
+    private SpriteRenderer cell_renderer;
 
     // Used to establish that the cell has stopped moving
     private Vector2 still_vector = new Vector2(0, 0);
@@ -30,6 +39,10 @@ public class PassiveCellController : MonoBehaviour
         cell_rb = GetComponent<Rigidbody2D>();
 
         wait_time = Random.Range(0.0f, 1.0f);
+
+        current_health = max_health;
+
+        cell_renderer = GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -70,11 +83,15 @@ public class PassiveCellController : MonoBehaviour
         if (infected)
         {
             time_since_last_damage += Time.deltaTime;
+            if (cell_renderer.color != fully_infected_color)
+            {
+                UpdateInfectedColor();
+            }
             if (time_since_last_damage >= 1.0f)
             {
-                health -= infect_damage;
+                current_health -= infect_damage;
                 time_since_last_damage = 0.0f;
-                if (health <= 0.0f)
+                if (current_health <= 0.0f)
                 {
                     // If the player is still on the cell then launch the player off before destroying the cell
                     if (player_attached)
@@ -155,11 +172,31 @@ public class PassiveCellController : MonoBehaviour
         player_attached = false;
     }
 
+    private void UpdateInfectedColor()
+    {
+        Color infected_color = new Color();
+        infected_color.r = (Time.deltaTime * red_change_per_sec) + cell_renderer.color.r;
+        infected_color.g = (Time.deltaTime * green_change_per_sec) + cell_renderer.color.g;
+        infected_color.b = (Time.deltaTime * blue_change_per_sec) + cell_renderer.color.b;
+        infected_color.a = 1.0f;
+        cell_renderer.color = infected_color;
+    }
+
     // Infects the cell with the virus, dealing the damage given per second
     public void InfectCell(float damage_per_second)
     {
-        // Inflict damage to the cell every second, when the cell reaches 0 hp then kill the cell object
-        health -= damage_per_second;
+        // Setting up the spriterenderer to change color each frame to represent the infection
+        time_till_death = current_health / damage_per_second;
+        float current_red = cell_renderer.color.r;
+        float current_green = cell_renderer.color.g;
+        float current_blue = cell_renderer.color.b;
+
+        red_change_per_sec = (fully_infected_color.r - current_red) / time_till_death;
+        green_change_per_sec = (fully_infected_color.g - current_green) / time_till_death;
+        blue_change_per_sec = (fully_infected_color.b - current_blue) / time_till_death;
+
+
+        // Setting up the cell to take damage each second
         infect_damage = damage_per_second;
         infected = true;
     }
