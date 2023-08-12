@@ -111,10 +111,12 @@ public class PassiveCellController : MonoBehaviour
     {
         player_rb = player.GetComponent<Rigidbody2D>();
         player_attached = true;
+        player_rb.velocity = cell_rb.velocity;
     }
 
     public void PlayerDettached()
     {
+        player_rb.velocity = new Vector2(0.0f, 0.0f);
         player_rb = null;
         player_attached = false;
     }

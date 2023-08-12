@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     private float current_speed = 0.0f;
     private float current_speed_jump = 0.0f;
     private float current_health = 0.0f;
-    private int mucus = 0;
+    private bool attached_to_cell = false;
 
     void Start()
     {
@@ -37,9 +37,10 @@ public class PlayerController : MonoBehaviour
         // The blob will continue to travel until it collides with a wall where it then sticks
         if (space_pressed)
         {
-            if (current_attached_wall.tag == "Cell")
+            if (current_attached_wall.tag == "Cell" && attached_to_cell)
             {
                 current_attached_wall.gameObject.SendMessage("PlayerDettached");
+                attached_to_cell = false;
             }
 
             // Apply the space force to the player based on jump speed
@@ -83,9 +84,10 @@ public class PlayerController : MonoBehaviour
 
         if (other.tag == "Wall" || other.tag == "Cell")
         {
-            if (current_attached_wall.tag == "Cell")
+            if (current_attached_wall.tag == "Cell" && attached_to_cell)
             {
                 current_attached_wall.gameObject.SendMessage("PlayerDettached");
+                attached_to_cell = false;
             }
 
             // Setting up the known wall that we are attached to
@@ -101,6 +103,7 @@ public class PlayerController : MonoBehaviour
         if (other.tag == "Cell")
         {
             other.SendMessage("PlayerAttached", gameObject);
+            attached_to_cell = true;
         }
     }
 
@@ -143,16 +146,6 @@ public class PlayerController : MonoBehaviour
         {
             current_health = 0.0f;
         }
-    }
-
-    public void SetMucus(int value)
-    {
-        mucus = value;
-    }
-
-    public int GetMucus()
-    {
-        return mucus;
     }
 
     public float GetHealth()
