@@ -27,7 +27,6 @@ public class LightUpAbilitiesUI : MonoBehaviour
         // Updating the nessecary alphas for each ui image
         if (player_script.GetAttachedToCell())
         {
-            print(player_script.GetAttachedToCell());
             // Updating the infect icon
             var temp_color = infect_ui_image.color;
             temp_color.a = active_alpha;
@@ -40,7 +39,6 @@ public class LightUpAbilitiesUI : MonoBehaviour
         } 
         else
         {
-            print(inactive_alpha);
             // Updating the infect icon
             var temp_color = infect_ui_image.color;
             temp_color.a = inactive_alpha;
