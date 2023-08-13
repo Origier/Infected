@@ -8,6 +8,7 @@ TagManager:
   - Invisible Wall
   - Mucus
   - Cell
+  - Virus
   layers:
   - Default
   - TransparentFX

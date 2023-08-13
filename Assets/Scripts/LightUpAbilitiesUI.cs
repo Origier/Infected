@@ -24,7 +24,7 @@ public class LightUpAbilitiesUI : MonoBehaviour
     void Update()
     {
         
-        // Updating the nessecary alphas for each ui image
+        // Updating the alphas for the attachment images
         if (player_script.GetAttachedToCell())
         {
             // Updating the infect icon
@@ -48,6 +48,15 @@ public class LightUpAbilitiesUI : MonoBehaviour
             temp_color = consume_ui_image.color;
             temp_color.a = inactive_alpha;
             consume_ui_image.color = temp_color;
+        }
+
+        // Updating the alphas for targeting
+        if(player_script.GetVirusCount() > 0)
+        {
+            // Updating the infect icon
+            var temp_color = target_ui_image.color;
+            temp_color.a = active_alpha;
+            target_ui_image.color = temp_color;
         }
     }
 }

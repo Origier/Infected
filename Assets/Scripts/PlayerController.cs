@@ -196,4 +196,14 @@ public class PlayerController : MonoBehaviour
     {
         space_pressed = true;
     }
+
+    public void AddVirus()
+    {
+        virus_count += 1;
+    }
+
+    public int GetVirusCount()
+    {
+        return virus_count;
+    }
 }

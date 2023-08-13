@@ -11,6 +11,9 @@ public class PassiveCellController : MonoBehaviour
     public float max_health = 3.0f;
     public float destruction_countdown = 0.5f;
     public Color fully_infected_color;
+    public GameObject virus_prefab;
+    public int max_number_of_virus_output = 5;
+    public float virus_spawn_range = 1.5f;
 
     private float time_since_last_move = 0.0f;
     private Rigidbody2D cell_rb;
@@ -105,6 +108,15 @@ public class PassiveCellController : MonoBehaviour
             }
             else if(start_destroy_countdown && time_since_last_damage >= destruction_countdown)
             {
+                // When the cell is infected and killed then spawn a random number of viruses from that kill
+                int amount_of_virus_to_spawn = Random.Range(1, max_number_of_virus_output);
+
+                for(int i = 0; i < amount_of_virus_to_spawn; i++)
+                {
+                    Instantiate(virus_prefab).transform.position = transform.position;
+                    GameObject.FindGameObjectWithTag("Player").SendMessage("AddVirus");
+                }
+
                 Destroy(gameObject);
             }
         }

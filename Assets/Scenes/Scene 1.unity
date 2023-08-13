@@ -220,6 +220,10 @@ PrefabInstance:
       value: Player Blob
       objectReference: {fileID: 0}
     - target: {fileID: 4477260591248388457, guid: e5a20d0eabbf62742ba1605e76837ba5, type: 3}
+      propertyPath: damage_per_second
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4477260591248388457, guid: e5a20d0eabbf62742ba1605e76837ba5, type: 3}
       propertyPath: starting_attachment
       value: 
       objectReference: {fileID: 1343432888}
@@ -317,6 +321,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5a20d0eabbf62742ba1605e76837ba5, type: 3}
+--- !u!1 &90957529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 90957530}
+  m_Layer: 0
+  m_Name: Virus Container
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &90957530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 90957529}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 85.85926, y: -14.7221775, z: 1.4262508}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &99402515
 GameObject:
   m_ObjectHideFlags: 0
@@ -1070,6 +1105,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Red Blood Cell (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 7505563222478842084, guid: be6b3e4be52d9fe419da1b27bbb46147, type: 3}
+      propertyPath: virus_prefab
+      value: 
+      objectReference: {fileID: 168217427749500276, guid: f145a41425e703d4f93dd8fa178076e0, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: be6b3e4be52d9fe419da1b27bbb46147, type: 3}
 --- !u!4 &595872632 stripped
@@ -1343,7 +1382,7 @@ RectTransform:
   - {fileID: 1465916781}
   - {fileID: 1136849285}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1526,7 +1565,7 @@ Transform:
   - {fileID: 1823323832}
   - {fileID: 1343432887}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &869422043
 GameObject:
@@ -1901,7 +1940,7 @@ Transform:
   - {fileID: 1342286552}
   - {fileID: 390795613}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1091817161
 PrefabInstance:
@@ -6700,7 +6739,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2112122272
 PrefabInstance:
